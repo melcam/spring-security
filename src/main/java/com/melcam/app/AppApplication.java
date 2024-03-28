@@ -20,6 +20,8 @@ public class AppApplication {
         SpringApplication.run(AppApplication.class, args);
     }
 
+    private static final String ADMIN_PSW="$2a$10$qnbePZAmyxcvQ0tivEnYqOxol6wabTU7myM.LQ2Pi2kTvJqt3lDLS";
+    private static final String PSW="$2a$10$u2kZnjTWrh/XY9FXjAIizehCgIzQXHTUAf5of0ITQxrq9WXXCgofi";
     @Bean
     CommandLineRunner init(UserRepository userRepository) {
         return args -> {
@@ -61,7 +63,7 @@ public class AppApplication {
             //Create Users
             UserEntity userAdmin = UserEntity.builder()
                     .username("admin")
-                    .password("admin")
+                    .password(ADMIN_PSW)
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
@@ -70,7 +72,7 @@ public class AppApplication {
                     .build();
             UserEntity userRommel = UserEntity.builder()
                     .username("rommel")
-                    .password("123456")
+                    .password(PSW)
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
@@ -79,7 +81,7 @@ public class AppApplication {
                     .build();
             UserEntity userDaniel = UserEntity.builder()
                     .username("daniel")
-                    .password("123456")
+                    .password(PSW)
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
@@ -88,7 +90,7 @@ public class AppApplication {
                     .build();
             UserEntity userAndrea = UserEntity.builder()
                     .username("andrea")
-                    .password("123456")
+                    .password(PSW)
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
