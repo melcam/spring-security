@@ -24,16 +24,16 @@ public class UserEntity {
     private String password;
 
     @Column(name = "is_enabeld")
-    private String isEnabled;
+    private boolean isEnabled;
 
     @Column(name = "account_no_expired")
-    private String accountNoExpired;
+    private boolean accountNoExpired;
 
     @Column(name = "account_no_locked")
-    private String accountNoLocked;
+    private boolean accountNoLocked;
 
     @Column(name = "credential_no_expired")
-    private String credentialNoExpired;
+    private boolean credentialNoExpired;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name ="user_roles",joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))

@@ -1,5 +1,6 @@
 package com.melcam.app.config;
 
+import com.melcam.app.service.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,24 +30,6 @@ import java.util.List;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        return httpSecurity
-//                .csrf(csfg -> csfg.disable())
-//                .httpBasic(Customizer.withDefaults())
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                //persimo a los endpoint
-//                .authorizeHttpRequests(http->{
-//                    //configurar los endpoint publicos
-//                    http.requestMatchers(HttpMethod.GET,"auth/hello").permitAll();
-//                    //configuracion de endpoints privados
-//                    http.requestMatchers(HttpMethod.GET,"auth/hello-secured").hasAuthority("READ");
-//                    //denegar el acceso si fuera otro tipo de peticion las no mencionadas anteriormente
-//                    http.anyRequest().denyAll();
-//                })
-//                .build();
-//    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -63,28 +46,13 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(UserDetailServiceImpl userDetailService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(userDetailsService());
+        provider.setUserDetailsService(userDetailService);
         return provider;
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        List<UserDetails> userDetailsList = new ArrayList<>();
-        userDetailsList.add(User.withUsername("admin")
-                .password("admin")
-                .roles("ADMIN")
-                .authorities("READ", "CREATE")
-                .build());
-        userDetailsList.add(User.withUsername("melcam")
-                .password("melcam")
-                .roles("USER")
-                .authorities("READ")
-                .build());
-        return new InMemoryUserDetailsManager(userDetailsList);
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
