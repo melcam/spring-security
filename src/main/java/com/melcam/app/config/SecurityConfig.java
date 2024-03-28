@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,21 +29,30 @@ import java.util.List;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        return httpSecurity
+//                .csrf(csfg -> csfg.disable())
+//                .httpBasic(Customizer.withDefaults())
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                //persimo a los endpoint
+//                .authorizeHttpRequests(http->{
+//                    //configurar los endpoint publicos
+//                    http.requestMatchers(HttpMethod.GET,"auth/hello").permitAll();
+//                    //configuracion de endpoints privados
+//                    http.requestMatchers(HttpMethod.GET,"auth/hello-secured").hasAuthority("READ");
+//                    //denegar el acceso si fuera otro tipo de peticion las no mencionadas anteriormente
+//                    http.anyRequest().denyAll();
+//                })
+//                .build();
+//    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf(csfg -> csfg.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                //persimo a los endpoint
-                .authorizeHttpRequests(http->{
-                    //configurar los endpoint publicos
-                    http.requestMatchers(HttpMethod.GET,"auth/hello").permitAll();
-                    //configuracion de endpoints privados
-                    http.requestMatchers(HttpMethod.GET,"auth/hello-secured").hasAuthority("READ");
-                    //denegar el acceso si fuera otro tipo de peticion las no mencionadas anteriormente
-                    http.anyRequest().denyAll();
-                })
                 .build();
     }
 
